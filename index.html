@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      label {
+        color: rgb(32, 33, 36);
+        display: inline-block;
+        font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 0.2px
+      }
+
+      input {
+        color: inherit
+      }
+
+      .range {
+        width: 70px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+        text-align: center
+      }
+
+      .range::placeholder {
+        text-align: center
+      }
+
+      .label-ignoreCase,
+      .label-matchCase {
+        margin-bottom: 20px;
+        display: block
+      }
+
+      .label-matchCase {
+        margin-bottom: 30px;
+      }
+
+      .ignoreCase,
+      .matchCase {
+        margin: 0 0 0 15px;
+      }
+
+      .action {
+        border: 1px solid transparent;
+        border-radius: 4px;
+        box-shadow: none;
+        box-sizing: border-box;
+        font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial,sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        height: 36px;
+        letter-spacing: 0.25px;
+        line-height: 16px;
+        padding: 9px 24px 11px 24px;
+        background: #188038;
+        color: #fff;
+        text-transform: capitalize;
+        cursor: pointer
+      }
+
+      .action:hover {
+        opacity: 0.9
+      }
+
+      .action:active {
+        opacity: 0.7
+      }
+    </style>
+  </head>
+  <body>
+
+  <label>Selected range<input type="text" placeholder="A1:B2" maxlength="10" class="range" required></label>
+  <label class="label-ignoreCase">Ignore blanks<input type="checkbox" class="ignoreBlanks" checked></label>
+  <label class="label-matchCase">Match case<input type="checkbox" class="matchCaseStatus" checked></label>
+
+  <input type="submit" value="Submit" class="action" onclick="sendInfo()">
+
+  <script>
+  function sendInfo() {
+    let range           = document.querySelector('.range'),
+        ignoreBlanks    = document.querySelector('.ignoreBlanks'),
+        matchCaseStatus       = document.querySelector('.matchCaseStatus'),
+        inputValidation = /\w\d+\:\w\d+/;
+
+    (!inputValidation.test(range.value)) ?
+        range.style.boxShadow = 'rgb(255, 0, 0) 0px 0px 1.5px 1px' :
+        range.style.boxShadow = 'none';
+
+    google.script.run.doFunctional(String(range.value), ignoreBlanks.checked, matchCaseStatus.checked);
+  }
+  </script>
+  </body>
+</html>
